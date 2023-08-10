@@ -1,7 +1,23 @@
 {
   "records": [
     {
-      "id": 3,
+      "id": 0,
+      "title": "testTitle3",
+      "artist": "testArtist3",
+      "year": "2000",
+      "cover": "DefaultCover",
+      "price": "20€"
+    },
+    {
+      "id": 1,
+      "title": "testTitle3",
+      "artist": "testArtist3",
+      "year": "2000",
+      "cover": "DefaultCover",
+      "price": "20€"
+    },
+    {
+      "id": 2,
       "title": "testTitle3",
       "artist": "testArtist3",
       "year": "2000",
@@ -17,12 +33,13 @@
       "price": "20€"
     },
     {
-      "id": 3,
-      "title": "testTitle3",
-      "artist": "testArtist3",
-      "year": "2000",
-      "cover": "DefaultCover",
-      "price": "20€"
-    }
+      "id": 4,
+      "title": "asdfasd",
+      "artist": "lslld",
+      "year": "1995",
+      "cover": "dasdasd",
+      "price": "777777"
+    },
+    {}
   ]
 }
