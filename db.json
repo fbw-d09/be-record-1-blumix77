@@ -1,0 +1,36 @@
+{
+  "records": [
+    {
+      "id": 1,
+      "title": "testTitle",
+      "artist": "testArtist",
+      "year": "1978",
+      "cover": "DefaultCover",
+      "price": "3.5664€"
+    },
+    {
+      "id": 1,
+      "title": "testTitle",
+      "artist": "testArtist",
+      "year": "1978",
+      "cover": "DefaultCover",
+      "price": "3.5664€"
+    },
+    {
+      "id": 1,
+      "title": "testTitle",
+      "artist": "testArtist",
+      "year": "1978",
+      "cover": "DefaultCover",
+      "price": "3.5664€"
+    },
+    {
+      "id": 1,
+      "title": "testTitle",
+      "artist": "testArtist",
+      "year": "1978",
+      "cover": "DefaultCover",
+      "price": "3.5664€"
+    }
+  ]
+}
