@@ -19,86 +19,15 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// POST 
+// Aufgabe 2:
 
-/* const create = ({ id, title, artist, year, cover, price }) => 
-{
-    const newRecord = {
-        id,
-        title,
-        artist,
-        year,
-        cover,
-        price
-    }
+// cors middleware
 
-    console.log("Eintrag erstellt:", newRecord);
-} */
-/* 
-create({
-    id: 5,
-    title: "testTitle",
-    artist: "testArtist",
-    year: "1978",
-    cover: "DefaultCover",
-    price: "3.5664€"
-}) */
+const { meineMiddleware } = require('./middleware/cors');
 
-/* create({
-    id: 2,
-    title: "testTitle2",
-    artist: "testArtist2",
-    year: "1979",
-    cover: "DefaultCover",
-    price: "18€"
+app.use(meineMiddleware);
 
-})  */
-/* 
-create({
-    id: 3,
-    title: "testTitle3",
-    artist: "testArtist3",
-    year: "2000",
-    cover: "DefaultCover",
-    price: "20€"
-
-}) */
-
-// GET 
-
-/* const readOne = (id) => 
-{
-    const selectedRecord = db.get("records").find({ id }).value();
-
-    console.log("Einzelner ausgegebener Eintrag:", selectedRecord);
-
-} */
-
-// UPDATE / PUT 
-
-/* const update = (id, title, artist, year, cover, price) => 
-{
-    db.get("records").find({ id })
-
-    .assign({ title, artist, year, cover, price }).write();
-
-    console.log("Update erfolgreich!");
-} */
-
-// update(1, "dasdasd"); 
-
-// DELETE 
-
-/* const remove = (id) => 
-{
-
-    db.get("records").remove({ id }).write();
-
-    console.log(`Record mit der ID: ${id} wurde gelöscht!`)
-
-} */
-
-// remove(1)
+//
 
 app.delete("/api/records/delete/:id", async (req, res) => {
 
@@ -137,6 +66,10 @@ app.post("/api/records", (req, res) =>
 
     res.status(200).json({ success: true, data: newArtist})
 });
+
+
+
+
 
 app.listen(port, () => console.log("Server läuft auf Port: ", port));
 

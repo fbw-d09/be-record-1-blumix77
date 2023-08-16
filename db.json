@@ -40,6 +40,14 @@
       "cover": "dasdasd",
       "price": "777777"
     },
-    {}
+    {},
+    {
+      "id": "123123",
+      "title": "asdass",
+      "artist": "dkdkdk",
+      "year": "3333",
+      "cover": "rand",
+      "price": "44444"
+    }
   ]
 }
