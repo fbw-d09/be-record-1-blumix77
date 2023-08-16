@@ -25,42 +25,18 @@ app.use(bodyParser.json());
 
 const { meineMiddleware } = require('./middleware/cors');
 
-/* app.use(meineMiddleware(), (req,res,next) => 
-{
-    console.log(req);
-    console.log("Test");
-    next();
-}); */
+// app.use(meineMiddleware);
 
-app.use(meineMiddleware);
-
-app.get("api/records/middleware", meineMiddleware(), (req,res) => {
-    console.log("dasdas");
-    res.send("Middleware-TEst");
-})
-
-
-//
-
-app.delete("/api/records/delete/:id", async (req, res) => {
-
-    console.log("METHOD: ", req.method);
-    const { id } = req.params;
-    console.log(id);
-    await db.get("records").remove({id: 2}).write();
-    //console.log(req.params.id);
-    res.status(200).json({ success: true })
+app.get("/api/records/middleware", meineMiddleware, (req,res) => {
+    console.log("das ist der test");
+    res.send("Middleware-Test");
 })
 
 app.get("/api/records", (req, res) => 
 {   
 
     console.log("METHOD:", req.method);
-
-    const { newRecord } = req.body;
-
     const selectedRecord = db.get("records").value();
-
     res.status(200).json({success: true, selectedRecord });
 
 });
@@ -70,7 +46,6 @@ app.post("/api/records", (req, res) =>
 
     console.log("METHOD:", req.method);
 
-    
     // res.status(200).json(`New Record ${newRecord} added!`)
     const { id, title, artist, year, cover, price } = req.body;
     const newArtist = { id, title, artist, year, cover, price }
@@ -79,9 +54,6 @@ app.post("/api/records", (req, res) =>
 
     res.status(200).json({ success: true, data: newArtist})
 });
-
-
-
 
 
 app.listen(port, () => console.log("Server läuft auf Port: ", port));

@@ -6,5 +6,6 @@ exports.meineMiddleware = (req, res, next) =>
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
     console.log("TIME", Date.now());
+    console.log("Middleware läuft");
     next();
 }
