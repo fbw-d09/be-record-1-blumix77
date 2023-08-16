@@ -25,12 +25,20 @@ app.use(bodyParser.json());
 
 const { meineMiddleware } = require('./middleware/cors');
 
-app.use(meineMiddleware(), (req,res,next) => 
+/* app.use(meineMiddleware(), (req,res,next) => 
 {
     console.log(req);
     console.log("Test");
     next();
-});
+}); */
+
+app.use(meineMiddleware);
+
+app.get("api/records/middleware", meineMiddleware(), (req,res) => {
+    console.log("dasdas");
+    res.send("Middleware-TEst");
+})
+
 
 //
 
