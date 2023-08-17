@@ -5,7 +5,7 @@ exports.getAllOrders = (req, res) =>
 
 exports.createNewOrder = (req, res) => 
 {
-    res.status(200).send("Creating a new Order")
+    res.status(200).json("Creating a new Order")
 }
 
 exports.getOrder = (req, res) => 
@@ -20,6 +20,7 @@ exports.updateOrder = (req, res) =>
 
     res.status(200).json({
         message: `Die Bestellung wurde aktualisiert.`,
+        quantity: "3000",
         id
     })
 }
@@ -30,6 +31,7 @@ exports.deleteOrder = (req, res) =>
 
     res.status(200).json({
         message: "Die Bestellung wurde gelöscht!",
+        quantity: "3000",
         id
     })
 }
