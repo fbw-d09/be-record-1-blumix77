@@ -9,16 +9,16 @@ const recordsController = require('./../controller/records.js');
     console.log(req.method + " - " + req.url);
 
     next();
-})
+}) */
 
-router.get("api/records/:id", (req, res) => {
+/* router.get("/:id", (req, res) => {
     
     const { id } = req.params;
 
     res.status(200).send("records id: " + id);
-})
+}) */
 
-router.put("api/records/:id", (req, res) => {
+/* router.put("api/records/:id", (req, res) => {
     
     const { id } = req.params;
 
@@ -31,13 +31,12 @@ router.delete("api/records/:id", (req, res) => {
     const { id } = req.params;
 
     res.status(200).send("records id: " + id);
-})
- */
-router.route("api/records/:id")
+}) */
+
+router.route("/:id")
 
 .get(recordsController.getPost)
 .put(recordsController.updatePost)
 .delete(recordsController.deletePost);
-
 
 module.exports = router;

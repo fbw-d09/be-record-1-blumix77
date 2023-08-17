@@ -63,9 +63,13 @@ const users = require('./routes/users.js');
 const orders = require('./routes/orders.js');
 const records = require('./routes/records.js');
 
-app.use('/users', users);
-app.use('/orders', orders);
-app.use('/records', records);
+app.use('/api/users', users);
+app.use('/api/orders', orders);
+app.use('/api/records', records);
+
+app.use((req, res, next) => {
+    res.status(404).send("Page not found!")
+})
 
 
 //////
