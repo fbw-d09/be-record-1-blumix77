@@ -21,7 +21,7 @@ exports.deletePost = (req, res) => {
     const { id } = req.params;
 
     res.status(200).json({
-        message: `Der Record mit der "${id}" wurde gelöscht.`
+        message: `Der Record mit der "${id}" wurde gelöscht.`,
         id
     })
 }
