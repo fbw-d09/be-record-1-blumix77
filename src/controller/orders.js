@@ -11,7 +11,12 @@ exports.createNewOrder = (req, res) =>
 exports.getOrder = (req, res) => 
 {
     const { id } = req.params;
-    res.status(200).send(`Die Bestellung mit der ID "${id}" wird hier angezeigt.`);
+
+    res.status(200).json({
+        message: `Deine Bestellung wird hier angezeigt`,
+        quantity: "3000",
+        id
+    })
 }
 
 exports.updateOrder = (req, res) => 
