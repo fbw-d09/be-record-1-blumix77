@@ -59,8 +59,16 @@ app.post("/api/records", (req, res) =>
 
 ////// Aufgabe 3:
 
-    
+const users = require('./routes/users.js');
+const orders = require('./routes/orders.js');
+const records = require('./routes/records.js');
 
+app.use('/users', users);
+app.use('/orders', orders);
+app.use('/records', records);
+
+
+//////
 
 app.listen(port, () => console.log("Server läuft auf Port: ", port));
 
