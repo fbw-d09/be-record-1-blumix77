@@ -1,3 +1,4 @@
+//// Aufgabe 2: 
 
 exports.meineMiddleware = (req, res, next) => 
 {
@@ -9,3 +10,5 @@ exports.meineMiddleware = (req, res, next) =>
     console.log("Middleware läuft");
     next();
 }
+
+////

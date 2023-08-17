@@ -19,7 +19,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Aufgabe 2:
+//// Aufgabe 2:
 
 // cors middleware
 
@@ -31,6 +31,8 @@ app.get("/api/records/middleware", meineMiddleware, (req,res) => {
     console.log("das ist der test");
     res.send("Middleware-Test");
 })
+
+////
 
 app.get("/api/records", (req, res) => 
 {   
@@ -54,6 +56,10 @@ app.post("/api/records", (req, res) =>
 
     res.status(200).json({ success: true, data: newArtist})
 });
+
+////// Aufgabe 3:
+
+    
 
 
 app.listen(port, () => console.log("Server läuft auf Port: ", port));
