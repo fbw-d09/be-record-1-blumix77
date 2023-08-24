@@ -1,6 +1,6 @@
-// require("dotenv").config();
+require("dotenv").config();
 
-const port = 3000;
+const port = process.env.Port || 3000;
 
 const express = require('express');
 
@@ -23,11 +23,11 @@ app.use(bodyParser.json());
 
 // cors middleware
 
-const { meineMiddleware } = require('./middleware/cors');
+const { setCors } = require('./middleware/cors');
 
 // app.use(meineMiddleware);
 
-app.get("/api/records/middleware", meineMiddleware, (req,res) => {
+app.get("/api/records/middleware", setCors, (req,res) => {
     console.log("das ist der test");
     res.send("Middleware-Test");
 })
@@ -68,8 +68,19 @@ app.use('/api/orders', orders);
 app.use('/api/records', records);
 
 app.use((req, res, next) => {
-    res.status(404).send("Page not found!")
-})
+    const error = new Error("Looks like something is broke...");
+    error.statusCode = 404;
+    next(error);
+});
+
+app.use((err, req, res, next) => {
+
+    res.status(err.statusCode || 500).send({
+        error: {
+            message: err.message
+        }
+    });
+});
 
 
 //////
