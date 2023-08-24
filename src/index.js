@@ -25,37 +25,12 @@ app.use(bodyParser.json());
 
 const { setCors } = require('./middleware/cors');
 
-// app.use(meineMiddleware);
+app.use(setCors);
 
-app.get("/api/records/middleware", setCors, (req,res) => {
+/* app.get("/middleware", setCors, (req,res) => {
     console.log("das ist der test");
     res.send("Middleware-Test");
-})
-
-////
-
-app.get("/api/records", (req, res) => 
-{   
-
-    console.log("METHOD:", req.method);
-    const selectedRecord = db.get("records").value();
-    res.status(200).json({success: true, selectedRecord });
-
-});
-
-app.post("/api/records", (req, res) => 
-{   
-
-    console.log("METHOD:", req.method);
-
-    // res.status(200).json(`New Record ${newRecord} added!`)
-    const { id, title, artist, year, cover, price } = req.body;
-    const newArtist = { id, title, artist, year, cover, price }
-
-    db.get("records").push( newArtist ).write();
-
-    res.status(200).json({ success: true, data: newArtist})
-});
+}) */
 
 ////// Aufgabe 3:
 
@@ -82,9 +57,31 @@ app.use((err, req, res, next) => {
     });
 });
 
-
-//////
-
 app.listen(port, () => console.log("Server läuft auf Port: ", port));
 
+/////////////////
 
+//// Aufgabe 1, aber durch Router und Controller nun ausgelagert
+
+/* app.get("/api/records", (req, res) => 
+{   
+
+    console.log("METHOD:", req.method);
+    const selectedRecord = db.get("records").value();
+    res.status(200).json({success: true, selectedRecord });
+
+});
+
+app.post("/api/records", (req, res) => 
+{   
+
+    console.log("METHOD:", req.method);
+
+    res.status(200).json(`New Record ${newRecord} added!`)
+    const { id, title, artist, year, cover, price } = req.body;
+    const newArtist = { id, title, artist, year, cover, price }
+
+    db.get("records").push( newArtist ).write();
+
+    res.status(200).json({ success: true, data: newArtist})
+}); */
