@@ -27,11 +27,6 @@ const { setCors } = require('./middleware/cors');
 
 app.use(setCors);
 
-/* app.get("/middleware", setCors, (req,res) => {
-    console.log("das ist der test");
-    res.send("Middleware-Test");
-}) */
-
 ////// Aufgabe 3:
 
 const users = require('./routes/users.js');
