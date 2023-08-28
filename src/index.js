@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const port = process.env.Port || 3000;
+const port = process.env.PORT || 3000;
 
 const express = require('express');
 
@@ -12,7 +12,7 @@ const FileSync = require('lowdb/adapters/FileSync');
 
 const adapter = new FileSync('db.json');
 
-const db = low(adapter);
+// const db = low(adapter);
 
 const app = express();
 
@@ -51,6 +51,23 @@ app.use((err, req, res, next) => {
         }
     });
 });
+
+////////// Aufgabe 4: Mongoose / Schema / Modell erstellen 
+
+// importieren der Verbindung zu MongoDB:
+
+const { connect, closeConnection } = require('./config/db.js');
+
+// importieren der Modelle:
+
+const Orders = require('./models/Orders.js');
+const Records = require('./models/Records.js');
+const Users = require('./models/Users.js');
+
+//
+
+
+////////
 
 app.listen(port, () => console.log("Server läuft auf Port: ", port));
 
