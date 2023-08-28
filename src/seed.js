@@ -1,3 +1,5 @@
+// Aufgabe 4 - Daten mittels Chance durch Modelle / Schemas in eine Datenbank implementieren - pure JS / kein Express 
+
 const Chance = require('chance');
 const mongoose = require('mongoose')
 
