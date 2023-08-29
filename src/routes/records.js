@@ -33,6 +33,10 @@ router.delete("api/records/:id", (req, res) => {
     res.status(200).send("records id: " + id);
 }) */
 
+router.route("/")
+.post(recordsController.createNewRecord)
+.get(recordsController.getAllRecords);
+
 router.route("/:id")
 
 .get(recordsController.getPost)
