@@ -1,45 +1,83 @@
-exports.getAllOrders = (req, res) => 
-{
-    res.status(200).send("get all orders")
-}
+require('dotenv').config();
 
-exports.createNewOrder = (req, res) => 
-{
-    res.status(200).json("Creating a new Order")
-}
+const Order = require('../models/Order.js');
 
-exports.getOrder = (req, res) => 
-{
-    const { id } = req.params;
+const { connect, closeConnection } = require('../config/db.js');
 
-    res.status(200).json({
-        success: true,
-        message: `Deine Bestellung wird hier angezeigt`,
-        quantity: "3000",
-        id
+exports.getAllOrders = (req, res) => {
+    Order
+    .find()
+    .then(orders => {
+        res.status(200).json(
+        {
+            success: true,
+            data: orders
+        }
+    )
     })
+    .catch(err => console.log(err.message));
 }
 
-exports.updateOrder = (req, res) => 
-{
+exports.getOrder = (req, res) => {
     const { id } = req.params;
-
-    res.status(200).json({
-        success: true,
-        message: `Die Bestellung wurde aktualisiert.`,
-        quantity: "3000",
-        id
+    Order
+    .findById(id)
+    .then(order => {
+        res.status(200).json({
+            success: true,
+            id,
+            data: order,
+        })
     })
+    .catch(err => console.log(err.message));
 }
 
-exports.deleteOrder = (req, res) => 
-{
-    const { id } = req.params;
+exports.createNewOrder = (req, res) => {
 
-    res.status(200).json({
-        success: true,
-        message: "Die Bestellung wurde gelöscht!",
-        quantity: "3000",
-        id
+    const { artist, title, quantity } = req.body
+    .then(order => {
+        const newOrder = new order({
+            artist,
+            title,
+            quantity
+        })
+        res.status(200).json({
+        success :true ,
+        data: order,
+        message: "Bestellung aufgegeben"
+        })
     })
+    .catch(err => console.log(err.message));
+}
+
+exports.updateOrder = (req, res) => {
+    const { id } = req.params;
+    Order
+    .findOneAndReplace({ _id: id },
+    {
+        quantity: 130,
+        artist: "Peter Pain",
+        title: "Klick Klack"
+    })
+    .then(order => {
+        res.status(200).json({
+            success: true,
+            replaced: order !== null ? true : false,
+            data: order,
+            message: `Die Bestellung wurde aktualisiert.`,
+        });
+    });
+};
+
+exports.deleteOrder = (req, res) => {
+    const { id } = req.params;
+    Order
+    .findByIdAndDelete(id)
+    .then(order => {
+        res.json({
+            success: true,
+            deleted: order !== null ? true : false, 
+            data: order
+        });
+    });
 }
