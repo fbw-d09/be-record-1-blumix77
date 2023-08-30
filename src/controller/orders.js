@@ -34,20 +34,36 @@ exports.getOrder = (req, res) => {
 
 exports.createNewOrder = (req, res) => {
 
-    const { artist, title, quantity } = req.body
-    .then(order => {
-        const newOrder = new order({
-            artist,
-            title,
-            quantity
+    const { artist, title, quantity } = req.body;
+
+    try {
+        connect().then(async => {
+            const newOrder = new Order({
+                artist,
+                title,
+                quantity
+            })
+            console.log(newOrder);
+
+            newOrder
+            .save()
+            .then(order => {
+                res.status(201).json({
+                    success: true,
+                    data: order
+                });
+            })
+            .catch(err => {
+                res.status(400).json({
+                    success: false,
+                    message: err.message
+                })
+            })
         })
-        res.status(200).json({
-        success :true ,
-        data: order,
-        message: "Bestellung aufgegeben"
-        })
-    })
-    .catch(err => console.log(err.message));
+
+    } catch(err) {
+        console.log(err.message);
+    }
 }
 
 exports.updateOrder = (req, res) => {
