@@ -36,7 +36,6 @@ exports.getUser = (req, res) =>
 }
 
 
-
 exports.createUser = async (req, res) => {
     try {
         const newUser = new User(req.body);
@@ -53,6 +52,7 @@ exports.createUser = async (req, res) => {
         })
     }
 }
+
 
 exports.updateUser = (req, res) => 
 {
