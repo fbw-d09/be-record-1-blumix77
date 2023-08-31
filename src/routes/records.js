@@ -39,8 +39,8 @@ router.route("/")
 
 router.route("/:id")
 
-.get(recordsController.getPost)
-.put(recordsController.updatePost)
-.delete(recordsController.deletePost);
+.get(recordsController.getRecord)
+.put(recordsController.updateRecord)
+.delete(recordsController.deleteRecord);
 
 module.exports = router;
