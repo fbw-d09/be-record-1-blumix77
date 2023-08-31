@@ -22,7 +22,7 @@ const generateUsers = (num) => {
             day: chance.integer({min :1 , max : 31}),
             month: chance.integer({min :1 , max : 12}),
             year: chance.integer({min :1930 , max : 2000})
-        }
+        };
         const password = chance.hash({length: 10})
 
         users.push({
