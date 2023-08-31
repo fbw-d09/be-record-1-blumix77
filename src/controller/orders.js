@@ -32,48 +32,31 @@ exports.getOrder = (req, res) => {
     .catch(err => console.log(err.message));
 }
 
-exports.createNewOrder = (req, res) => {
-
-    const { artist, title, quantity } = req.body;
-
+exports.createNewOrder = async (req, res) => {
+    // const { artist, title, quantity } = req.body;
     try {
-        connect().then(async => {
-            const newOrder = new Order({
-                artist,
-                title,
-                quantity
-            })
-            console.log(newOrder);
-
-            newOrder
-            .save()
-            .then(order => {
-                res.status(201).json({
-                    success: true,
-                    data: order
-                });
-            })
-            .catch(err => {
-                res.status(400).json({
-                    success: false,
-                    message: err.message
-                })
-            })
+        const newOrder = new Order(req.body);
+        await newOrder.save() 
+        res.status(200).json({
+            success: true,
+            data: newOrder
         })
-
-    } catch(err) {
-        console.log(err.message);
+    } catch (error) {
+        res.status(404).json({
+            success: false,
+            message: error.message
+        })
     }
 }
 
 exports.updateOrder = (req, res) => {
     const { id } = req.params;
     Order
-    .findOneAndReplace({ _id: id },
-    {
-        quantity: 130,
-        artist: "Peter Pain",
-        title: "Klick Klack"
+    .findOneAndUpdate({ _id: id },
+        {
+        quantity: req.body.quantity,
+        artist: req.body.artist,
+        title: req.body.title
     })
     .then(order => {
         res.status(200).json({
