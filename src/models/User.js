@@ -1,5 +1,13 @@
+const mongoose = require("mongoose")
+/* const address = require("./Address.js"); */
+
 
 const { Schema, model } = require('mongoose');
+
+const address = new Schema({
+    street: String,
+    city: String
+}, {timestamps: true});
 
 const user = new Schema({
     firstname: {type: String, trim: true},
@@ -10,7 +18,8 @@ const user = new Schema({
         year: Number
     },
     mail: String,
-    password: {type: String, unique: true, required: true }
+    password: {type: String, required: true },
+    address: address
 }, {timestamps: true});
 
 const userModel = new model('User', user, 'users');

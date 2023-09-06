@@ -8,6 +8,7 @@ const { connect, closeConnection } = require('./config/db.js');
 const Order = require('./models/Order.js');
 const Record = require('./models/Record.js');
 const User = require('./models/User.js');
+const Address = require('./models/Address.js');
 
 const chance = new Chance();
 
@@ -24,17 +25,38 @@ const generateUsers = (num) => {
             year: chance.integer({min :1930 , max : 2000})
         };
         const password = chance.hash({length: 10})
-
+        const address = {
+            street: chance.street(),
+            city: chance.city()
+        }
+ 
         users.push({
             firstname,
             lastname,
             mail,
             birthday,
-            password
+            password,
+            address
         });
     }
     return users;
 };
+
+/* const generateAddresses = (num) => {
+    const addresses = [];
+
+    for(let i = 0; i < num; i++) {
+        const address = {
+            street: chance.street(),
+            city: chance.city()
+        }
+
+    addresses.push({
+        address
+    });
+    }
+    return addresses;
+}; */
 
 ////
 

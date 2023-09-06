@@ -20,11 +20,10 @@ exports.getAllUser = (req, res) =>
     .catch(err => console.log(err.message));
 };
 
-exports.getUser = (req, res) => 
-{
+exports.getUser = async (req, res) => {
     const { id } = req.params;
     User
-    .findById(id)
+    .findById(id).populate("address")
     .then(user => {
         res.status(200).json({
             success: true,
@@ -33,7 +32,7 @@ exports.getUser = (req, res) =>
         })
     })
     .catch(err => console.log(err.message));
-}
+};
 
 
 exports.createUser = async (req, res) => {
