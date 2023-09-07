@@ -1,14 +1,14 @@
 const { Schema, model } = require('mongoose');
 
-const record = new Schema({
-    // id: String
+const recordSchema = new Schema({
     title: String,
     artist: String,
     year: Number,
     cover: String,
-    price: Number
+    price: Number,
+    // quantity: Number
 }, { timestamps: true});
 
-const recordModel = new model('Record', record, 'records');
+const Record = new model('Record', recordSchema, 'records');
 
-module.exports = recordModel;
+module.exports = { recordSchema, Record };

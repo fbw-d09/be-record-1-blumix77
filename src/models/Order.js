@@ -1,16 +1,13 @@
 const mongoose = require("mongoose")
-const { Record } = require("./Record.js"); 
+const { recordSchema } = require("./Record.js"); 
 
 const { Schema, model } = require('mongoose');
 
 const order = new Schema({
-    artist: String,
-    title: String,
     quantity: Number,
     records: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Record",
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: "Record",  
     }]
 }, { timestamps: true });
 

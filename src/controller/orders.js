@@ -6,7 +6,7 @@ const { connect, closeConnection } = require('../config/db.js');
 
 exports.getAllOrders = (req, res) => {
     Order
-    .find()
+    .find().populate("records","-_id")
     .then(orders => {
         res.status(200).json(
         {
@@ -21,7 +21,7 @@ exports.getAllOrders = (req, res) => {
 exports.getOrder = (req, res) => {
     const { id } = req.params;
     Order
-    .findById(id)
+    .findById(id).populate("records",'title artist -_id')
     .then(order => {
         res.status(200).json({
             success: true,
@@ -51,13 +51,9 @@ exports.createNewOrder = async (req, res) => {
 
 exports.updateOrder = (req, res) => {
     const { id } = req.params;
+    const updatedOrder = req.body;
     Order
-    .findOneAndUpdate({ _id: id },
-        {
-        quantity: req.body.quantity,
-        artist: req.body.artist,
-        title: req.body.title
-    })
+    .findByIdAndUpdate(id, updatedOrder,{new:true})
     .then(order => {
         res.status(200).json({
             success: true,
@@ -71,7 +67,7 @@ exports.updateOrder = (req, res) => {
 exports.deleteOrder = (req, res) => {
     const { id } = req.params;
     Order
-    .findByIdAndDelete(id)
+    .findOneAndReplace(id)
     .then(order => {
         res.json({
             success: true,

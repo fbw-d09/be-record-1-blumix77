@@ -42,24 +42,6 @@ const generateUsers = (num) => {
     return users;
 };
 
-/* const generateAddresses = (num) => {
-    const addresses = [];
-
-    for(let i = 0; i < num; i++) {
-        const address = {
-            street: chance.street(),
-            city: chance.city()
-        }
-
-    addresses.push({
-        address
-    });
-    }
-    return addresses;
-}; */
-
-////
-
 const generateOrders = (num) => {
     const orders = [];
 
@@ -103,9 +85,6 @@ const generateRecords = (num) => {
 const seed = async () => {
 
     await connect().then(async () => {
-    /*     const newUser = new Users({
-            firstname: chance.first(),
-            lastname: chance.last(), mail: chance.email(), password: chance.hash({ length: 10 }) */
         await User
         .insertMany(generateUsers(10))
         .then(docs => {
