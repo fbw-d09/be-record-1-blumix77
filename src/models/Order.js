@@ -7,7 +7,8 @@ const order = new Schema({
     quantity: Number,
     records: [{
         type: Schema.Types.ObjectId,
-        ref: "Record",  
+        ref: "Record", 
+        // quantity: Number
     }]
 }, { timestamps: true });
 
