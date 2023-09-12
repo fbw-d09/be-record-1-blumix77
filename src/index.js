@@ -16,6 +16,69 @@ const db = mongoose.connect(databaseUrl);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+/// Validation
+
+const validator = require('express-validator');
+
+//// Jason Web Token ////
+
+const jwt = require('jsonwebtoken');
+
+const crypto = require('crypto');
+
+// console.log(crypto.randomBytes(64).toString('hex'))
+
+const secret = process.env.TOKEN_SECRET;
+console.log(secret);
+
+exports.signAccessToken = data => {
+    return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: '1800s'});
+}
+
+exports.verifyToken = (req, res, next) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+
+        const decodedData = jwt.verify(token, process.env.TOKEN_SECRET);
+        next();
+    } catch (error) {
+        res.status(401).json({ message: "NOT AUTHORIZED" });
+    }
+}
+
+app.post('/auth', (req, res) => {
+    const { username, password } = req.body;
+
+    User.findOne({ username }).then(foundUser => {
+        if(foundUser)
+        {
+            if(foundUser.comparePassword(password))
+            {
+                res.status(200).json({
+                    success: true,
+                    token: signAccessToken({ username })
+                })
+            }
+            else
+            {
+                res.status(401).json({
+                    success: false,
+                    message: "Incorrect login data"
+                })
+            }
+        }
+        else 
+        {
+            res.status(404).json({
+                success: false,
+                message: "User not found!"
+            })
+        }
+    });
+});
+
+
 ////////// Aufgabe 4: Mongoose / Schema / Modell erstellen 
 
 // importieren der Verbindung zu MongoDB:

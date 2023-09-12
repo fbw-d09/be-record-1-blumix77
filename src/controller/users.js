@@ -4,38 +4,9 @@ const User = require('../models/User.js')
 
 const { connect, closeConnection } = require('../config/db.js');
 
+const validator = require('express-validator');
 
-exports.getAllUser = (req, res) => 
-{
-    User
-    .find()
-    .then(users => {
-        res.status(200).json(
-            {
-                success: true,
-                data: users
-            }
-        )
-    })
-    .catch(err => console.log(err.message));
-};
-
-exports.getUser = async (req, res) => {
-    const { id } = req.params;
-    User
-    .findById(id).populate("address")
-    .then(user => {
-        res.status(200).json({
-            success: true,
-            id,
-            data: user,
-        })
-    })
-    .catch(err => console.log(err.message));
-};
-
-
-exports.createUser = async (req, res) => {
+/* exports.createUser = async (req, res) => {
     try {
         const newUser = new User(req.body);
         await newUser.save()
@@ -50,10 +21,9 @@ exports.createUser = async (req, res) => {
             message: error.message
         })
     }
-}
+} */
 
-
-exports.updateUser = (req, res) => 
+/* exports.updateUser = (req, res) => 
 {
     const { id } = req.params;
     User
@@ -77,7 +47,100 @@ exports.updateUser = (req, res) =>
                 message: "Der User wurde geupdated."
             })
     });
+} */
+// mit Validierung:
+
+exports.createUser = async(req, res, next) => {
+    try {
+        const {firstname, lastname, username, birthday, mail, password, address} = req.body;
+
+        const error = validator.validationResult(req).errors;
+        if(error.length > 0) {
+            return res.status(400).json({
+                success: false,
+                message: error.map(err => err.msg)
+            });
+        };
+
+        const newUser = new User({firstname, lastname, username, birthday, mail, password, address});
+
+        // hinzufügen der Authentifizierung durch ein Login
+        newUser.username = username;
+        newUser.password = newUser.hashPassword(password);
+
+        await newUser.save();
+        res.status(201).json({
+            success: true,
+            message: `New user ${ username } created`,
+            data: newUser
+        });
+    } catch (error) {
+        console.log(error);
+        next(error)
+    }
 }
+
+
+
+exports.updateUser = async(req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const updatedUser = req.body;
+
+        const error = validator.validationResult(req).errors;
+        if(error.length > 0) {
+            return res.status(400).json({
+                success: false,
+                message: error.map(err => err.msg)
+            });
+        };
+
+        const user = await User.findByIdAndUpdate(id, updatedUser, 
+            {
+                new: true
+            });
+        res.status(201).json({
+            message: 'User updated!',
+            data: user
+        });
+    } catch (error) {
+        next(error)
+    }
+};
+ 
+
+exports.getAllUser = (req, res) => 
+{
+    User
+    .find()
+    .then(users => {
+        res.status(200).json(
+            {
+                success: true,
+                data: users
+            }    
+        )    
+    })    
+    .catch(err => console.log(err.message));
+};    
+
+exports.getUser = async (req, res) => {
+    const { id } = req.params;
+    User
+    .findById(id).populate("address")
+    .then(user => {
+        res.status(200).json({
+            success: true,
+            id,
+            data: user,
+        })    
+    })    
+    .catch(err => console.log(err.message));
+};    
+
+
+
 
 exports.deleteUser = (req, res) => {
     const { id } = req.params;
