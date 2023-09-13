@@ -12,6 +12,7 @@ exports.passwordConfirmation = (value, { req }) => {
 // prüfen, ob Passwort den Vorgaben entspricht
 
 exports.password = validator.body('password')
+   // .optional()
     .isLength({ min: 8, max: 16 })
     .withMessage('Password to short or to long')
     .not()
@@ -22,4 +23,7 @@ exports.password = validator.body('password')
 
 exports.username = validator.body('username')
 .isEmail()
+.optional()
 .withMessage('Username must be an email address!')
+
+/// für Put route 

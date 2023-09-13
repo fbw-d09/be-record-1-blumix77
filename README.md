@@ -1,27 +1,16 @@
-## Things that are going to be done
+#####
 
-This file lists the changes that need to be made in each stage. It is ordered in reverse chronological order, meaning that the last changes made will always be on top of the file, so that readers will not have to scroll all the way down with each task added.
+Übung: Validation / Sanitization
 
-## Task 01 - Mock database and Controllers
+Füge dem Recordshop Validation (gültige Daten) und Sanitization (saubere Daten) hinzu, um sicher zu stellen, das die Daten, welche in der Datenbank gespeichert werden, die gewünschte Qualität haben.
+Hier  findest du eine documentation, zu verfügbaren Methoden.
+Priorität in dieser Übung hat erstmal der User Controller. Wenn du diesen fertig hast, kannst du auch eine validation / sanitization zu Order und Record hinzufügen. 
 
-Most applications made for the web have to do with some sort of data manipulation. In order to be able to manipulate our data we have to do two things first:
+####
 
-    - We need to define the endpoints of our app that our users will use to send
-      different kinds of requests (GET, POST, DELETE, etc).
-    - We have to define how do we want our data to look like and of course store them somewhere.
+Füge dem Rekordshop einen User Login hinzu, um einzelne routes zu schützen. 
+Die route user/:id soll geschützt werden. Das heißt get, put  und delete user soll nur für den eingeloggten Nutzer möglich sein.
 
-**Story**: Our client is a record shop owner who wants to have a list of products in the main page of their shop. They know that they want to display the title, the artist, the year, the cover image and the price for each record they have available. However, the client still doesn't have a full list of all their products. He would also like to be able to add new records to his collection.
+####
 
-**TODO**:
-
-1. Please create two endpoints(routes) for the shop owner
-
-   - `api/records` -> a `GET` that will return all records of the store
-   - `api/records` -> a `POST` that will add a new record to the record collection
-
-   For now you can just return a string from the above endpoints, just to make sure everything works.
-
-2. Using `lowdb` set up a mock database for our records. It can be empty or it can contain already some fake data. Update the routes above so that they work just like they should.
-
-   - `api/records` -> should return all the records that are in our lowdb database
-   - `api/records` -> should add a new record to our lowdb database
+Übung für heute, Login überarbeiten - das erstellte Token in einem Cookie speichern - Nur der jeweils eingeloggte User soll auf seine eigenen Userdaten auf der route für user/:id get, put und delete zugreifen können.

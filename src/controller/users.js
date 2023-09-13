@@ -6,6 +6,13 @@ const { connect, closeConnection } = require('../config/db.js');
 
 const validator = require('express-validator');
 
+const jwt = require('jsonwebtoken');
+
+const cookieParser = require('cookie-parser');
+
+const secret = 'odpafi50';
+
+
 /* exports.createUser = async (req, res) => {
     try {
         const newUser = new User(req.body);
@@ -80,6 +87,85 @@ exports.createUser = async(req, res, next) => {
     }
 }
 
+/// LOGIN MIT JWT
+
+// middleware ordner
+/* exports.authorize = (req, res, next) => {
+    const token = req.cookies.access_token;
+
+    if(!token) 
+    {
+        return res.sendStatus(403);
+    }
+
+    try {
+        const data = jwt.verify(token, secret);
+
+        req.username = data.username;
+        req.password = data.password;
+
+        next();
+    } catch(err) {
+        return res.sendStatus(403);
+    }
+}
+ */
+exports.loginUser = async (req, res, next) => {
+
+    try {
+        const { username } = req.body;
+        const user = await User.find({username});
+        if(user) {
+            const token = jwt.sign({ username, id: user[0]._id }, secret) 
+
+            res
+            .cookie('access_token', token ,{
+                maxAge: 24 * 60 * 60 * 1000,
+                httpOnly: true
+            })
+            .status(200)
+            .json({
+                success: true,
+                message: `User ${ username } ist eingelogt`
+            })
+        } else {
+               res.status(403).json({
+                success: false,
+                message: "User not found!"
+            })
+        }
+    } catch(err) {
+        next(err);
+    }
+}
+/* 
+exports.loggedIn = async (req, res) => {
+    
+    const {username, password} = req;
+    await User
+    res.status(200).json({
+        success: true,
+        username,
+        password,
+        message: "User ist loggedIn"
+    })
+    next();
+}
+
+exports.loggedOut = async (req, res) => {
+    await User
+    return res
+
+    .clearCookie('access_token')
+    .status(200)
+    .json({
+        success: true,
+        message: 'User wurde erfolgreich ausgeloggt'
+    });
+    next();
+} */
+
+////
 
 
 exports.updateUser = async(req, res, next) => {

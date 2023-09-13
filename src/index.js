@@ -26,6 +26,8 @@ const jwt = require('jsonwebtoken');
 
 const crypto = require('crypto');
 
+const cookieParser = require('cookie-parser');
+
 // console.log(crypto.randomBytes(64).toString('hex'))
 
 const secret = process.env.TOKEN_SECRET;
@@ -109,6 +111,8 @@ const records = require('./routes/records.js');
 app.use('/api/users', users);
 app.use('/api/orders', orders);
 app.use('/api/records', records);
+app.use(cookieParser());
+
 
 app.use((req, res, next) => {
     const error = new Error("Looks like something is broke...");

@@ -19,7 +19,12 @@ router.route("/")
     userController.createUser
 )
 
+router.route("/login")
+.post(userController.loginUser)
+
+
 router.route("/:id")
+    // authorized
 .get(userController.getUser)
 // .put(userController.updateUser)
 .put(
@@ -31,5 +36,25 @@ router.route("/:id")
 
 /* router.route("/auth")
 .post() */
+
+/// JWT Login 
+
+
+/* router.route("/users/dashboard")
+.get(
+    authorize.loggedIn
+)
+
+// 
+
+router.route("/logout")
+.post(
+    authorize.loggedOut
+) */
+
+// route protected
+// rout unprotected
+
+///
 
 module.exports = router;
