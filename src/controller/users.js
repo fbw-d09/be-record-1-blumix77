@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 
 const cookieParser = require('cookie-parser');
 
-const secret = 'odpafi50';
+const secret = process.env.TOKEN_SECRET;
 
 
 /* exports.createUser = async (req, res) => {
@@ -70,7 +70,7 @@ exports.createUser = async(req, res, next) => {
         };
 
         const newUser = new User({firstname, lastname, username, birthday, mail, password, address});
-
+        
         // hinzufügen der Authentifizierung durch ein Login
         newUser.username = username;
         newUser.password = newUser.hashPassword(password);
@@ -89,47 +89,28 @@ exports.createUser = async(req, res, next) => {
 
 /// LOGIN MIT JWT
 
-// middleware ordner
-/* exports.authorize = (req, res, next) => {
-    const token = req.cookies.access_token;
-
-    if(!token) 
-    {
-        return res.sendStatus(403);
-    }
-
-    try {
-        const data = jwt.verify(token, secret);
-
-        req.username = data.username;
-        req.password = data.password;
-
-        next();
-    } catch(err) {
-        return res.sendStatus(403);
-    }
-}
- */
 exports.loginUser = async (req, res, next) => {
 
     try {
-        const { username } = req.body;
-        const user = await User.find({username});
+        const { username, password } = req.body;
+        const user = await User.findOne({username}); //bei .find muss die ID wieder einkommentiert werden
+       /*  console.log("user", user[0]); */
         if(user) {
-            const token = jwt.sign({ username, id: user[0]._id }, secret) 
+            if(user.comparePassword(password)) {
+                const token = jwt.sign({ username, id: user._id }, secret) 
 
-            res
-            .cookie('access_token', token ,{
+                res
+                .cookie('access_token', token ,{
                 maxAge: 24 * 60 * 60 * 1000,
                 httpOnly: true
-            })
-            .status(200)
-            .json({
-                success: true,
-                message: `User ${ username } ist eingelogt`
-            })
-        } else {
-               res.status(403).json({
+                })
+                .status(200)
+                .json({
+                    success: true,
+                    message: `User ${ username } ist eingeloggt`
+                })}
+            } else {
+                res.status(403).json({
                 success: false,
                 message: "User not found!"
             })
@@ -138,34 +119,6 @@ exports.loginUser = async (req, res, next) => {
         next(err);
     }
 }
-/* 
-exports.loggedIn = async (req, res) => {
-    
-    const {username, password} = req;
-    await User
-    res.status(200).json({
-        success: true,
-        username,
-        password,
-        message: "User ist loggedIn"
-    })
-    next();
-}
-
-exports.loggedOut = async (req, res) => {
-    await User
-    return res
-
-    .clearCookie('access_token')
-    .status(200)
-    .json({
-        success: true,
-        message: 'User wurde erfolgreich ausgeloggt'
-    });
-    next();
-} */
-
-////
 
 
 exports.updateUser = async(req, res, next) => {
@@ -213,16 +166,26 @@ exports.getAllUser = (req, res) =>
 
 exports.getUser = async (req, res) => {
     const { id } = req.params;
-    User
-    .findById(id).populate("address")
-    .then(user => {
-        res.status(200).json({
-            success: true,
-            id,
-            data: user,
-        })    
-    })    
-    .catch(err => console.log(err.message));
+    try {
+        if (req.loggedInId === id) {
+            await User
+            .findById(id).populate("address")
+            .then(user => {
+                res.status(200).json({
+                    success: true,
+                    id,
+                    data: user,
+                })    
+            })}  
+        else {
+            res.status(400).json({
+                success: false,
+                message: "User ist nicht authorisiert."
+            })
+        }
+    } catch {
+        (err => console.log(err.message));
+    }
 };    
 
 

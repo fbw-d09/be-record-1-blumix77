@@ -4,6 +4,7 @@ const userController = require('../controller/users.js');
 
 // Import der Validierung
 const userValidations = require('../validations/userValidation.js');
+const authUser = require('../middleware/authUser.js');
 
 // Import des JWT 
 /* const signAccessToken = require('../index.js');
@@ -25,7 +26,8 @@ router.route("/login")
 
 router.route("/:id")
     // authorized
-.get(userController.getUser)
+.get(
+    authUser.authorize, userController.getUser)
 // .put(userController.updateUser)
 .put(
     userValidations.password,

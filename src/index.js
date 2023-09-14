@@ -13,6 +13,8 @@ const mongoose = require('mongoose');
 const databaseUrl = `${ process.env.DB_URL }${ process.env.DB_NAME }`;
 const db = mongoose.connect(databaseUrl);
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -26,12 +28,11 @@ const jwt = require('jsonwebtoken');
 
 const crypto = require('crypto');
 
-const cookieParser = require('cookie-parser');
 
 // console.log(crypto.randomBytes(64).toString('hex'))
 
 const secret = process.env.TOKEN_SECRET;
-console.log(secret);
+/* console.log(secret); */
 
 exports.signAccessToken = data => {
     return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: '1800s'});
@@ -111,11 +112,11 @@ const records = require('./routes/records.js');
 app.use('/api/users', users);
 app.use('/api/orders', orders);
 app.use('/api/records', records);
-app.use(cookieParser());
+
 
 
 app.use((req, res, next) => {
-    const error = new Error("Looks like something is broke...");
+    const error = new Error("Looks like something is broken...");
     error.statusCode = 404;
     next(error);
 });    
@@ -124,7 +125,7 @@ app.use((err, req, res, next) => {
 
     res.status(err.statusCode || 500).send({
         error: {
-            message: err.message
+            message: err.message 
         }    
     });    
 });    
