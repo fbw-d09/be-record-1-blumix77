@@ -8,6 +8,8 @@ const validator = require('express-validator');
 
 const jwt = require('jsonwebtoken');
 
+const Address = require('../models/Address.js')
+
 const cookieParser = require('cookie-parser');
 
 const secret = process.env.TOKEN_SECRET;
@@ -69,12 +71,18 @@ exports.createUser = async(req, res, next) => {
             });
         };
 
-        const newUser = new User({firstname, lastname, username, birthday, mail, password, address});
+        const newAddress = new Address({
+            street: address.street,
+            city: address.city
+        }) 
+
+        const newUser = new User({firstname, lastname, username, birthday, mail, password, address: newAddress._id});
         
         // hinzufügen der Authentifizierung durch ein Login
         newUser.username = username;
         newUser.password = newUser.hashPassword(password);
 
+        await newAddress.save();
         await newUser.save();
         res.status(201).json({
             success: true,

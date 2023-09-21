@@ -12,6 +12,7 @@ const Address = require('./models/Address.js');
 
 const chance = new Chance();
 
+
 const generateUsers = (num) => {
     const users = [];
 
